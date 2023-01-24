@@ -7,8 +7,8 @@ class MapScreen extends StatefulWidget {
   final bool isSelecting;
 
   MapScreen(
-      {this.initialLocation =
-          const PlaceLocation(latitude: 37.422, longitude: -122.084),
+      {this.initialLocation = const PlaceLocation(
+          latitude: 37.422, longitude: -122.084, address: ''),
       this.isSelecting = false});
 
   @override
@@ -49,12 +49,14 @@ class _MapScreenState extends State<MapScreen> {
           zoom: 16,
         ),
         onTap: widget.isSelecting ? _selectLocation : null,
-        markers: _pickedLocation == null
+        markers: (_pickedLocation == null && widget.isSelecting)
             ? null
             : {
                 Marker(
                   markerId: MarkerId('m1'),
-                  position: _pickedLocation,
+                  position: _pickedLocation ??
+                      LatLng(widget.initialLocation.latitude,
+                          widget.initialLocation.longitude),
                 )
               },
       ),
